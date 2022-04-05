@@ -1,0 +1,20 @@
+{
+  "name": "0x01-es6_promise",
+  "version": "1.0.0",
+  "description": "The main objectives of this lesson are:  * What are Promises, how, and why they are used * How to use `then, resolve, catch` methods * How to use methods of Promise object * Throw/Try * The await operator * How to use an `async` function",
+  "main": "0-main.js",
+  "type": "module",
+  "scripts": {
+    "test": "eslint",
+    "dev": "node"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0"
+  }
+}
