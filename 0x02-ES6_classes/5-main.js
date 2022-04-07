@@ -1,0 +1,19 @@
+import Building from './5-building.js';
+
+const b = new Building(100);
+console.log(b);
+
+class TestBuilding extends Building {
+  constructor(arg) {
+    super(arg)
+  }
+}
+
+try {
+    const tr = new TestBuilding(200)
+    tr.evacuationWarningMessage();
+}
+catch(err) {
+    console.log(err);
+}
+
