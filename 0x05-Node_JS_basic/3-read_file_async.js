@@ -1,33 +1,23 @@
-// function that counts the number of students
-const countStudents = async (path) => {
-  const fs = require('fs');
-  const getStream = require('get-stream');
-  const { parse } = require('csv-parse');
-  if (fs.existsSync(path) === false) {
-    throw new Error('Cannot laod the database');
-  }
-  if (path !== null) {
-    const records = await fs.createReadStream(path)
-      .pipe(parse({ delimiter: ',', from_line: 2 }));
-    const data = await getStream.array(records);
-    let count = 0;
-    console.log(`Number of students: ${data.length}`);
-    const fields = {};
-    data.forEach((element) => {
-      if (element[element.length - 1] in fields) {
-        let val = element[0];
-        if (count < data.length - 2) { val = ` ${val}`; }
-        count++;
-        fields[element[element.length - 1]].names.push(val);
-        fields[element[element.length - 1]].count++;
-      } else { fields[element[element.length - 1]] = { names: [element[0]], count: 1 }; }
-    });
-    Object.entries(fields).forEach(([key, value]) => {
-      console.log(`Number of students in ${key}: ${value.count}. List: ${value.names}`);
-    });
-    fields.total = data.length;
-    return fields;
-  }
-};
+const fs = require('fs').promises;
 
+const countStudents = async (path) => {
+  let data;
+  try {
+    data = await fs.readFile(path, 'utf8');
+  } catch (error) {
+    throw new Error('Cannot load the database');
+  }
+  const students = data.split('\n')
+    .map((student) => student.split(','))
+    .filter((student) => student.length === 4 && student[0] !== 'firstname')
+    .map((student) => ({ firstName: student[0], field: student[3] }));
+  const cs = students.filter((student) => student.field === 'CS')
+    .map((student) => student.firstName);
+  const swe = students.filter((student) => student.field === 'SWE')
+    .map((student) => student.firstName);
+  console.log(`Number of students: ${students.length}`);
+  console.log(`Number of students in CS: ${cs.length}. List: ${cs.join(', ')}`);
+  console.log(`Number of students in CS: ${swe.length}. List: ${swe.join(', ')}`);
+  return { students, cs, swe };
+};
 module.exports = countStudents;
