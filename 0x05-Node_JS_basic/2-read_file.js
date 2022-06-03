@@ -2,7 +2,7 @@
 const countStudents = (path) => {
   const fs = require('fs');
   if (fs.existsSync(path) === false) {
-    throw new Error('Cannot laod the database');
+    throw new Error('Cannot load the database');
   }
   const data = fs.readFileSync(path, 'utf8');
   const students = data.split('\n')
